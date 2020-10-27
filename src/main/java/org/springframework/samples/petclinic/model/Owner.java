@@ -29,6 +29,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
@@ -65,6 +66,10 @@ public class Owner extends Person {
     @NotEmpty
     @Digits(fraction = 0, integer = 10)
     private String telephone;
+    
+    @Column(name = "active")
+    @NotNull
+    private boolean active;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Pet> pets;
@@ -92,6 +97,14 @@ public class Owner extends Person {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+    
+    public boolean getActive() {
+        return this.active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
     @JsonIgnore
     protected Set<Pet> getPetsInternal() {
@@ -157,6 +170,7 @@ public class Owner extends Person {
             .append("address", this.address)
             .append("city", this.city)
             .append("telephone", this.telephone)
+            .append("active", this.active)
             .toString();
     }
 }
